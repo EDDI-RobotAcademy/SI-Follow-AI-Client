@@ -10,6 +10,9 @@ from si_operation.service.response.si_operation_response import SIOperationRespo
 from watchdog_operation.service.watchdog_operation_service_impl import WatchdogOperationServiceImpl
 from watchdog_operation.service.request.watchdog_service_request import WatchdogOperationRequest
 from watchdog_operation.service.response.watchdog_service_response import WatchdogOperationResponse
+from phase.service.phase_service_impl import PhaseServiceImpl
+from phase.service.request.get_current_phase_service_request import GetCurrentPhaseRequest
+from phase.service.response.get_current_phase_service_response import GetCurrentPhaseResponse
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'template'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'si_agent'))
@@ -90,9 +93,32 @@ class UserDefinedProtocolRegister:
         )
         
         
+    @staticmethod
+    def registerGetCurrentPhaseProtocol():
+        customProtocolService = CustomProtocolServiceImpl.getInstance()
+        phaseService = PhaseServiceImpl.getInstance()
+
+        requestClassMapInstance = RequestClassMap.getInstance()
+        requestClassMapInstance.addRequestClass(
+            UserDefinedProtocolNumber.GET_CURRENT_PHASE,
+            GetCurrentPhaseRequest
+        )
+
+        responseClassMapInstance = ResponseClassMap.getInstance()
+        responseClassMapInstance.addResponseClass(
+            UserDefinedProtocolNumber.GET_CURRENT_PHASE,
+            GetCurrentPhaseResponse
+        )
+
+        customProtocolService.registerCustomProtocol(
+            UserDefinedProtocolNumber.GET_CURRENT_PHASE,
+            phaseService.get_current_phase
+        )
+        
 
     @staticmethod
     def registerUserDefinedProtocol():
         UserDefinedProtocolRegister.registerFirstUserDefinedProtocol()
         UserDefinedProtocolRegister.registerSIAgentOperationProtocol()
         UserDefinedProtocolRegister.registerWatchdogOperationProtocol()
+        UserDefinedProtocolRegister.registerGetCurrentPhaseProtocol()
