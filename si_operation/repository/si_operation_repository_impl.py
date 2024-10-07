@@ -2,6 +2,7 @@ from si_operation.repository.si_operation_repository import SIOperationRepositor
 
 import os
 import sys
+from glob import glob
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'si_agent'))
 
@@ -29,4 +30,10 @@ class SIOperationRepositoryImpl(SIOperationRepository):
         kwargs = {k:v for k, v in zip(ks, args)}
         runner = Runner()
         runner.run(**kwargs)
-
+        
+    def get_file_list(self, *args, **kwargs):
+        ks = ['user_token', 'project_name']
+        kwargs = {k:v for k, v in zip(ks, args)}
+        target_dir = f"si_agent/WareHouse/{kwargs['user_token']}/{kwargs['project_name']}"
+        file_list = glob(f"{target_dir}/**", recursive=True)
+        return [f.split(target_dir + "/")[-1] for f in file_list]

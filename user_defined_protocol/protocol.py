@@ -8,6 +8,7 @@ class UserDefinedProtocolNumber(Enum):
     WATCHDOG_OPERATON = 3377
     GET_CURRENT_PHASE = 77
     GET_BACKLOGS = 7733
+    GET_FILE_LIST = 7373
 
     @classmethod
     def hasValue(cls, value):

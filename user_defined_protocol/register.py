@@ -7,6 +7,8 @@ from first_user_defined_function_domain.service.response.fudf_just_for_test_resp
 from si_operation.service.si_operation_service_impl import SIOperationServiceImpl
 from si_operation.service.request.si_operation_request import SIOperationRequest
 from si_operation.service.response.si_operation_response import SIOperationResponse
+from si_operation.service.request.get_file_list_request import GetFileListRequest
+from si_operation.service.response.get_file_list_response import GetFileListResponse
 from watchdog_operation.service.watchdog_operation_service_impl import WatchdogOperationServiceImpl
 from watchdog_operation.service.request.watchdog_service_request import WatchdogOperationRequest
 from watchdog_operation.service.response.watchdog_service_response import WatchdogOperationResponse
@@ -141,9 +143,32 @@ class UserDefinedProtocolRegister:
         )
 
     @staticmethod
+    def registerGetFileListProtocol():
+        customProtocolService = CustomProtocolServiceImpl.getInstance()
+        SIOperationService = SIOperationServiceImpl.getInstance()
+
+        requestClassMapInstance = RequestClassMap.getInstance()
+        requestClassMapInstance.addRequestClass(
+            UserDefinedProtocolNumber.GET_FILE_LIST,
+            GetFileListRequest
+        )
+
+        responseClassMapInstance = ResponseClassMap.getInstance()
+        responseClassMapInstance.addResponseClass(
+            UserDefinedProtocolNumber.GET_FILE_LIST,
+            GetFileListResponse
+        )
+
+        customProtocolService.registerCustomProtocol(
+            UserDefinedProtocolNumber.GET_FILE_LIST,
+            SIOperationService.get_file_list
+        )
+
+    @staticmethod
     def registerUserDefinedProtocol():
         UserDefinedProtocolRegister.registerFirstUserDefinedProtocol()
         UserDefinedProtocolRegister.registerSIAgentOperationProtocol()
         UserDefinedProtocolRegister.registerWatchdogOperationProtocol()
         UserDefinedProtocolRegister.registerGetCurrentPhaseProtocol()
         UserDefinedProtocolRegister.registerGetBacklogsProtocol()
+        UserDefinedProtocolRegister.registerGetFileListProtocol()
