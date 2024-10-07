@@ -1,5 +1,12 @@
 from si_operation.repository.si_operation_repository import SIOperationRepository
 
+import os
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'si_agent'))
+
+from si_agent.runner import Runner
+
 
 class SIOperationRepositoryImpl(SIOperationRepository):
     __instance = None
@@ -18,6 +25,8 @@ class SIOperationRepositoryImpl(SIOperationRepository):
         return cls.__instance
 
     def operate(self, *args, **kwargs):
-        # TODO: 이 부분에서 SI Agent 구동하도록 만들어주세요.
-        # 작성된 형태 보고 상황에 맞게 리팩토링해두겠습니다.
-        pass
+        ks = ['config', 'model_name', 'user_token', 'task', 'project', 'base_url']
+        kwargs = {k:v for k, v in zip(ks, args)}
+        runner = Runner()
+        runner.run(**kwargs)
+

@@ -20,4 +20,7 @@ class SIOperationServiceImpl(SIOperationService):
         return cls.__instance
 
     def operateSIAgent(self, *args, **kwargs):
-        pass
+        self.__siOperationRepository.operate(*args, **kwargs)
+        return {
+            "status": "done"
+        }
