@@ -8,6 +8,8 @@ from si_operation.service.si_operation_service_impl import SIOperationServiceImp
 from si_operation.service.request.si_operation_request import SIOperationRequest
 from si_operation.service.response.si_operation_response import SIOperationResponse
 from watchdog_operation.service.watchdog_operation_service_impl import WatchdogOperationServiceImpl
+from watchdog_operation.service.request.watchdog_service_request import WatchdogOperationRequest
+from watchdog_operation.service.response.watchdog_service_response import WatchdogOperationResponse
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'template'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'si_agent'))
@@ -63,8 +65,34 @@ class UserDefinedProtocolRegister:
             UserDefinedProtocolNumber.SI_AGENT_OPERATION,
             siAgentOperationService.operateSIAgent
         )
+        
+        
+    @staticmethod
+    def registerWatchdogOperationProtocol():
+        customProtocolService = CustomProtocolServiceImpl.getInstance()
+        watchdogOperationService = WatchdogOperationServiceImpl.getInstance()
+
+        requestClassMapInstance = RequestClassMap.getInstance()
+        requestClassMapInstance.addRequestClass(
+            UserDefinedProtocolNumber.WATCHDOG_OPERATON,
+            WatchdogOperationRequest
+        )
+
+        responseClassMapInstance = ResponseClassMap.getInstance()
+        responseClassMapInstance.addResponseClass(
+            UserDefinedProtocolNumber.WATCHDOG_OPERATON,
+            WatchdogOperationResponse
+        )
+
+        customProtocolService.registerCustomProtocol(
+            UserDefinedProtocolNumber.WATCHDOG_OPERATON,
+            watchdogOperationService.operateWatchdog
+        )
+        
+        
 
     @staticmethod
     def registerUserDefinedProtocol():
         UserDefinedProtocolRegister.registerFirstUserDefinedProtocol()
         UserDefinedProtocolRegister.registerSIAgentOperationProtocol()
+        UserDefinedProtocolRegister.registerWatchdogOperationProtocol()
