@@ -20,4 +20,17 @@ class SIOperationServiceImpl(SIOperationService):
         return cls.__instance
 
     def operateSIAgent(self, *args, **kwargs):
-        pass
+        self.__siOperationRepository.operate(*args, **kwargs)
+        return {
+            "status": "done"
+        }
+        
+    def get_file_list(self, *args, **kwargs):
+        user_token = args[0]
+        project_name = args[1]
+        created_files = self.__siOperationRepository.get_file_list(*args, **kwargs)
+        return {
+            "user_token": user_token,
+            "project_name": project_name,
+            "file_list": created_files
+        }
