@@ -13,6 +13,8 @@ from watchdog_operation.service.response.watchdog_service_response import Watchd
 from phase.service.phase_service_impl import PhaseServiceImpl
 from phase.service.request.get_current_phase_service_request import GetCurrentPhaseRequest
 from phase.service.response.get_current_phase_service_response import GetCurrentPhaseResponse
+from phase.service.request.get_backlogs_service_request import GetBacklogsRequest
+from phase.service.response.get_backlogs_service_response import GetBacklogsResponse
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'template'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'si_agent'))
@@ -115,6 +117,28 @@ class UserDefinedProtocolRegister:
             phaseService.get_current_phase
         )
         
+        
+    @staticmethod
+    def registerGetBacklogsProtocol():
+        customProtocolService = CustomProtocolServiceImpl.getInstance()
+        phaseService = PhaseServiceImpl.getInstance()
+
+        requestClassMapInstance = RequestClassMap.getInstance()
+        requestClassMapInstance.addRequestClass(
+            UserDefinedProtocolNumber.GET_BACKLOGS,
+            GetBacklogsRequest
+        )
+
+        responseClassMapInstance = ResponseClassMap.getInstance()
+        responseClassMapInstance.addResponseClass(
+            UserDefinedProtocolNumber.GET_BACKLOGS,
+            GetBacklogsResponse
+        )
+
+        customProtocolService.registerCustomProtocol(
+            UserDefinedProtocolNumber.GET_BACKLOGS,
+            phaseService.get_backlogs
+        )
 
     @staticmethod
     def registerUserDefinedProtocol():
@@ -122,3 +146,4 @@ class UserDefinedProtocolRegister:
         UserDefinedProtocolRegister.registerSIAgentOperationProtocol()
         UserDefinedProtocolRegister.registerWatchdogOperationProtocol()
         UserDefinedProtocolRegister.registerGetCurrentPhaseProtocol()
+        UserDefinedProtocolRegister.registerGetBacklogsProtocol()

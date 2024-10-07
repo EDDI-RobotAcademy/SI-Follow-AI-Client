@@ -25,3 +25,10 @@ class PhaseServiceImpl(PhaseService):
             "user_token": args[0],
             "phase": current_phase
         }
+        
+    def get_backlogs(self, *args, **kwargs):
+        backlog = self.__phaseRepository.get_backlogs(*args, **kwargs)
+        return {
+            "user_token": args[0],
+            "backlog": backlog
+        }
