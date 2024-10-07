@@ -5,8 +5,12 @@ from first_user_defined_function_domain.service.fudf_service_impl import FudfSer
 from first_user_defined_function_domain.service.request.fudf_just_for_test_request import FudfJustForTestRequest
 from first_user_defined_function_domain.service.response.fudf_just_for_test_response import FudfJustForTestResponse
 from si_operation.service.si_operation_service_impl import SIOperationServiceImpl
+from si_operation.service.request.si_operation_request import SIOperationRequest
+from si_operation.service.response.si_operation_response import SIOperationResponse
+from watchdog_operation.service.watchdog_operation_service_impl import WatchdogOperationServiceImpl
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'template'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'si_agent'))
 
 from template.custom_protocol.service.custom_protocol_service_impl import CustomProtocolServiceImpl
 from template.request_generator.request_class_map import RequestClassMap
@@ -46,13 +50,13 @@ class UserDefinedProtocolRegister:
         requestClassMapInstance = RequestClassMap.getInstance()
         requestClassMapInstance.addRequestClass(
             UserDefinedProtocolNumber.SI_AGENT_OPERATION,
-            FudfJustForTestRequest
+            SIOperationRequest
         )
 
         responseClassMapInstance = ResponseClassMap.getInstance()
         responseClassMapInstance.addResponseClass(
             UserDefinedProtocolNumber.SI_AGENT_OPERATION,
-            FudfJustForTestResponse
+            SIOperationResponse
         )
 
         customProtocolService.registerCustomProtocol(
