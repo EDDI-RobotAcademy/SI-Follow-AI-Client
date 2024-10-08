@@ -1,3 +1,5 @@
+import os
+
 from phase.repository.phase_repository import PhaseRepository
 
 
@@ -18,12 +20,18 @@ class PhaseRepositoryImpl(PhaseRepository):
         return cls.__instance
 
     def get_current_phase(self, *args, **kwargs):
-        user_token = args[0]
-        print('#'*30)
-        print('current phase: ', 'testtesttest')
-        print('user token: ', user_token)
-        print('#'*30)
-        return 'testtesttest'
+        user_token, project_name = args
+        phase_log_path = os.path.join("si_agent", "WareHouse", user_token, project_name, "logs", "Phase.log")
+        
+        if not os.path.exists(phase_log_path):
+            return "operate si agent first."
+        
+        with open(phase_log_path, 'r') as f:
+            phases = f.readlines()
+        cur_phase = phases[-1]
+        cur_phase = cur_phase.split('INFO: ')[-1].strip()
+        
+        return cur_phase
     
     def get_backlogs(self, *args, **kwargs):
         user_token = args[0]
