@@ -1,3 +1,6 @@
+import os
+import re
+
 from phase.repository.phase_repository import PhaseRepository
 
 
@@ -18,15 +21,26 @@ class PhaseRepositoryImpl(PhaseRepository):
         return cls.__instance
 
     def get_current_phase(self, *args, **kwargs):
-        user_token = args[0]
-        print('#'*30)
-        print('current phase: ', 'testtesttest')
-        print('user token: ', user_token)
-        print('#'*30)
-        return 'testtesttest'
+        user_token, project_name = args
+        phase_log_path = os.path.join("si_agent", "WareHouse", user_token, project_name, "logs", "Phase.log")
+        
+        if not os.path.exists(phase_log_path):
+            return "operate si agent first."
+        
+        with open(phase_log_path, 'r') as f:
+            phases = f.read()
+        pattern = r'\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}\] - \[.*? file line:\d+\] - INFO:'
+        phases = re.split(pattern, phases)
+        
+        if phases[0] == '':
+            phases = phases[1:]
+            
+        cur_phase = phases[-1].strip()
+        
+        return cur_phase
     
     def get_backlogs(self, *args, **kwargs):
-        user_token = args[0]
+        user_token, project_name = args
         return """
     **Backlog 1: Basic Calculator Operations**
 
@@ -71,3 +85,39 @@ or "/ 4")
 * Write unit tests for individual calculator functions to ensure they are working correctly
 * Use a testing framework like Pytest or Unittest to write and run tests
     """
+    
+    def get_test_reports(self, *args, **kwargs):
+        user_token, project_name = args
+        test_reports_log_path = os.path.join("si_agent", "WareHouse", user_token, project_name, "logs", "test_reports.log")
+        
+        if not os.path.exists(test_reports_log_path):
+            return "operate si agent first."
+
+        with open(test_reports_log_path, 'r') as file:
+            log_content = file.read()
+
+        pattern = r'\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}\] - \[.*? file line:\d+\] - INFO:'
+        test_reports = re.split(pattern, log_content)
+
+        if test_reports[0] == '':
+            test_reports = test_reports[1:]
+
+        return test_reports
+
+    def get_code_reviews(self, *args, **kwargs):
+        user_token, project_name = args
+        code_review_log_path = os.path.join("si_agent", "WareHouse", user_token, project_name, "logs", "CodeReviewComment.log")
+        
+        if not os.path.exists(code_review_log_path):
+            return "operate si agent first."
+
+        with open(code_review_log_path, 'r') as file:
+            log_content = file.read()
+
+        pattern = r'\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}\] - \[.*? file line:\d+\] - INFO:'
+        code_reviews = re.split(pattern, log_content)
+
+        if code_reviews[0] == '':
+            code_reviews = code_reviews[1:]
+
+        return code_reviews
