@@ -9,3 +9,7 @@ class PhaseService(ABC):
     @abstractmethod
     def get_backlogs(self, *args, **kwargs):
         pass
+    
+    @abstractmethod
+    def get_test_reports(self, *args, **kwargs):
+        pass

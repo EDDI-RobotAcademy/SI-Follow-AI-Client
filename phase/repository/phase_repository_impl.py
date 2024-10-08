@@ -79,3 +79,16 @@ or "/ 4")
 * Write unit tests for individual calculator functions to ensure they are working correctly
 * Use a testing framework like Pytest or Unittest to write and run tests
     """
+    
+    def get_test_reports(self, *args, **kwargs):
+        user_token, project_name = args
+        test_reports_log_path = os.path.join("si_agent", "WareHouse", user_token, project_name, "logs", "test_reports.log")
+        
+        if not os.path.exists(test_reports_log_path):
+            return "operate si agent first."
+        
+        with open(test_reports_log_path, 'r') as f:
+            test_reports = f.readlines()
+            test_reports = [test_report.split('INFO: ')[-1].strip() for test_report in test_reports]
+        
+        return test_reports

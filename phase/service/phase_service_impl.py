@@ -34,3 +34,11 @@ class PhaseServiceImpl(PhaseService):
             "project_name": args[1],
             "backlog": backlog
         }
+        
+    def get_test_reports(self, *args, **kwargs):
+        test_reports = self.__phaseRepository.get_test_reports(*args, **kwargs)
+        return {
+            "user_token": args[0],
+            "project_name": args[1],
+            "test_reports": test_reports
+        }
