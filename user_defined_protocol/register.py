@@ -19,6 +19,8 @@ from phase.service.request.get_backlogs_service_request import GetBacklogsReques
 from phase.service.response.get_backlogs_service_response import GetBacklogsResponse
 from phase.service.request.get_test_reports_service_request import GetTestReportsRequest
 from phase.service.response.get_test_reports_service_response import GetTestReportsResponse
+from phase.service.request.get_code_review_service_request import GetCodeReviewsRequest
+from phase.service.response.get_code_review_service_response import GetCodeReviewsResponse
 from gpu_management.service.gpu_management_service_impl import GPUManagementServiceImpl
 from gpu_management.service.response.gpu_management_response import GPUManagementResponse
 from gpu_management.service.request.gpu_management_request import GPUManagementRequest
@@ -212,6 +214,28 @@ class UserDefinedProtocolRegister:
             UserDefinedProtocolNumber.GET_TEST_REPORTS,
             phaseService.get_test_reports
         )
+        
+    @staticmethod
+    def registerGetCodeReviewsProtocol():
+        customProtocolService = CustomProtocolServiceImpl.getInstance()
+        phaseService = PhaseServiceImpl.getInstance()
+
+        requestClassMapInstance = RequestClassMap.getInstance()
+        requestClassMapInstance.addRequestClass(
+            UserDefinedProtocolNumber.GET_CODE_REVIEW,
+            GetCodeReviewsRequest
+        )
+
+        responseClassMapInstance = ResponseClassMap.getInstance()
+        responseClassMapInstance.addResponseClass(
+            UserDefinedProtocolNumber.GET_CODE_REVIEW,
+            GetCodeReviewsResponse
+        )
+
+        customProtocolService.registerCustomProtocol(
+            UserDefinedProtocolNumber.GET_CODE_REVIEW,
+            phaseService.get_code_reviews
+        )
 
     @staticmethod
     def registerUserDefinedProtocol():
@@ -223,3 +247,4 @@ class UserDefinedProtocolRegister:
         UserDefinedProtocolRegister.registerGetFileListProtocol()
         UserDefinedProtocolRegister.registerGetGPUstatusProtocol()
         UserDefinedProtocolRegister.registerGetTestReportsProtocol()
+        UserDefinedProtocolRegister.registerGetCodeReviewsProtocol()

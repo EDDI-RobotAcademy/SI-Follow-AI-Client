@@ -42,3 +42,12 @@ class PhaseServiceImpl(PhaseService):
             "project_name": args[1],
             "test_reports": test_reports
         }
+        
+    def get_code_reviews(self, *args, **kwargs):
+        code_reviews = self.__phaseRepository.get_code_reviews(*args, **kwargs)
+        return {
+            "user_token": args[0],
+            "project_name": args[1],
+            "code_review": code_reviews
+        }
+        

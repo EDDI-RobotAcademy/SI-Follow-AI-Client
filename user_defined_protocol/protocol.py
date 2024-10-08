@@ -11,6 +11,7 @@ class UserDefinedProtocolNumber(Enum):
     GET_FILE_LIST = 7373
     GET_GPU_STATUS = 3737
     GET_TEST_REPORTS = 3733
+    GET_CODE_REVIEW = 7377
 
     @classmethod
     def hasValue(cls, value):

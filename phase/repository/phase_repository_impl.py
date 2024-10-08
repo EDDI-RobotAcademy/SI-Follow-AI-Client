@@ -103,3 +103,21 @@ or "/ 4")
             test_reports = test_reports[1:]
 
         return test_reports
+
+    def get_code_reviews(self, *args, **kwargs):
+        user_token, project_name = args
+        code_review_log_path = os.path.join("si_agent", "WareHouse", user_token, project_name, "logs", "CodeReviewComment.log")
+        
+        if not os.path.exists(code_review_log_path):
+            return "operate si agent first."
+
+        with open(code_review_log_path, 'r') as file:
+            log_content = file.read()
+
+        pattern = r'\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}\] - \[.*? file line:\d+\] - INFO:'
+        code_reviews = re.split(pattern, log_content)
+
+        if code_reviews[0] == '':
+            code_reviews = code_reviews[1:]
+
+        return code_reviews
