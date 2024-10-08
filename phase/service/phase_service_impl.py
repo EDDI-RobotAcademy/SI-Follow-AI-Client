@@ -23,6 +23,7 @@ class PhaseServiceImpl(PhaseService):
         current_phase = self.__phaseRepository.get_current_phase(*args, **kwargs)
         return {
             "user_token": args[0],
+            "project_name": args[1],
             "phase": current_phase
         }
         
@@ -30,5 +31,23 @@ class PhaseServiceImpl(PhaseService):
         backlog = self.__phaseRepository.get_backlogs(*args, **kwargs)
         return {
             "user_token": args[0],
+            "project_name": args[1],
             "backlog": backlog
         }
+        
+    def get_test_reports(self, *args, **kwargs):
+        test_reports = self.__phaseRepository.get_test_reports(*args, **kwargs)
+        return {
+            "user_token": args[0],
+            "project_name": args[1],
+            "test_reports": test_reports
+        }
+        
+    def get_code_reviews(self, *args, **kwargs):
+        code_reviews = self.__phaseRepository.get_code_reviews(*args, **kwargs)
+        return {
+            "user_token": args[0],
+            "project_name": args[1],
+            "code_review": code_reviews
+        }
+        
