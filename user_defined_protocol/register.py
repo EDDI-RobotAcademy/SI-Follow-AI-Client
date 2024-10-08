@@ -17,6 +17,9 @@ from phase.service.request.get_current_phase_service_request import GetCurrentPh
 from phase.service.response.get_current_phase_service_response import GetCurrentPhaseResponse
 from phase.service.request.get_backlogs_service_request import GetBacklogsRequest
 from phase.service.response.get_backlogs_service_response import GetBacklogsResponse
+from gpu_management.service.gpu_management_service_impl import GPUManagementServiceImpl
+from gpu_management.service.response.gpu_management_response import GPUManagementResponse
+from gpu_management.service.request.gpu_management_request import GPUManagementRequest
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'template'))
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'si_agent'))
@@ -165,6 +168,28 @@ class UserDefinedProtocolRegister:
         )
 
     @staticmethod
+    def registerGetGPUstatusProtocol():
+        customProtocolService = CustomProtocolServiceImpl.getInstance()
+        GPUManagementService = GPUManagementServiceImpl.getInstance()
+
+        requestClassMapInstance = RequestClassMap.getInstance()
+        requestClassMapInstance.addRequestClass(
+            UserDefinedProtocolNumber.GET_GPU_STATUS,
+            GPUManagementRequest
+        )
+
+        responseClassMapInstance = ResponseClassMap.getInstance()
+        responseClassMapInstance.addResponseClass(
+            UserDefinedProtocolNumber.GET_GPU_STATUS,
+            GPUManagementResponse
+        )
+
+        customProtocolService.registerCustomProtocol(
+            UserDefinedProtocolNumber.GET_GPU_STATUS,
+            GPUManagementService.check_available
+        )
+
+    @staticmethod
     def registerUserDefinedProtocol():
         UserDefinedProtocolRegister.registerFirstUserDefinedProtocol()
         UserDefinedProtocolRegister.registerSIAgentOperationProtocol()
@@ -172,3 +197,4 @@ class UserDefinedProtocolRegister:
         UserDefinedProtocolRegister.registerGetCurrentPhaseProtocol()
         UserDefinedProtocolRegister.registerGetBacklogsProtocol()
         UserDefinedProtocolRegister.registerGetFileListProtocol()
+        UserDefinedProtocolRegister.registerGetGPUstatusProtocol()
