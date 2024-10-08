@@ -28,9 +28,14 @@ class PhaseRepositoryImpl(PhaseRepository):
             return "operate si agent first."
         
         with open(phase_log_path, 'r') as f:
-            phases = f.readlines()
-        cur_phase = phases[-1]
-        cur_phase = cur_phase.split('INFO: ')[-1].strip()
+            phases = f.read()
+        pattern = r'\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}\] - \[.*? file line:\d+\] - INFO:'
+        phases = re.split(pattern, phases)
+        
+        if phases[0] == '':
+            phases = phases[1:]
+            
+        cur_phase = phases[-1].strip()
         
         return cur_phase
     
