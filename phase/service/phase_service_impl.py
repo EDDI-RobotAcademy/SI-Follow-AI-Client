@@ -31,5 +31,6 @@ class PhaseServiceImpl(PhaseService):
         backlog = self.__phaseRepository.get_backlogs(*args, **kwargs)
         return {
             "user_token": args[0],
+            "project_name": args[1],
             "backlog": backlog
         }

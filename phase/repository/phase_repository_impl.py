@@ -34,7 +34,7 @@ class PhaseRepositoryImpl(PhaseRepository):
         return cur_phase
     
     def get_backlogs(self, *args, **kwargs):
-        user_token = args[0]
+        user_token, project_name = args
         return """
     **Backlog 1: Basic Calculator Operations**
 
