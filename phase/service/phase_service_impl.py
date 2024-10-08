@@ -23,6 +23,7 @@ class PhaseServiceImpl(PhaseService):
         current_phase = self.__phaseRepository.get_current_phase(*args, **kwargs)
         return {
             "user_token": args[0],
+            "project_name": args[1],
             "phase": current_phase
         }
         
