@@ -1,4 +1,5 @@
 import os
+import re
 
 from phase.repository.phase_repository import PhaseRepository
 
@@ -86,9 +87,14 @@ or "/ 4")
         
         if not os.path.exists(test_reports_log_path):
             return "operate si agent first."
-        
-        with open(test_reports_log_path, 'r') as f:
-            test_reports = f.readlines()
-            test_reports = [test_report.split('INFO: ')[-1].strip() for test_report in test_reports]
-        
+
+        with open(test_reports_log_path, 'r') as file:
+            log_content = file.read()
+
+        pattern = r'\[\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2},\d{3}\] - \[.*? file line:\d+\] - INFO:'
+        test_reports = re.split(pattern, log_content)
+
+        if test_reports[0] == '':
+            test_reports = test_reports[1:]
+
         return test_reports
