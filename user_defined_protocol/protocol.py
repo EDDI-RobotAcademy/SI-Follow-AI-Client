@@ -13,6 +13,8 @@ class UserDefinedProtocolNumber(Enum):
     GET_TEST_REPORTS = 3733
     GET_CODE_REVIEW = 7377
 
+    USER_TEST_POINT = 12345
+
     @classmethod
     def hasValue(cls, value):
         return any(value == item.value for item in cls)
