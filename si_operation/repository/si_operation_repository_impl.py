@@ -36,4 +36,19 @@ class SIOperationRepositoryImpl(SIOperationRepository):
         kwargs = {k:v for k, v in zip(ks, args)}
         target_dir = f"si_agent/WareHouse/{kwargs['user_token']}/{kwargs['project_name']}"
         file_list = glob(f"{target_dir}/**", recursive=True)
-        return [f.split(target_dir + "/")[-1] for f in file_list]
+        
+        def check(file_name:str):
+            print(file_name)
+            if not file_name:
+                return False
+            elif file_name.endswith('.log'):
+                return False
+            elif 'configs' in file_name:
+                return False
+            elif 'logs' in file_name:
+                return False
+            elif file_name.endswith('.prompt'):
+                return False
+            return True
+                
+        return [f.split(target_dir + "/")[-1] for f in file_list if check(f.split(target_dir + "/")[-1])]
