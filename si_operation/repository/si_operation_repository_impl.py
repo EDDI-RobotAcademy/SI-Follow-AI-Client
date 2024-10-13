@@ -38,7 +38,6 @@ class SIOperationRepositoryImpl(SIOperationRepository):
         file_list = glob(f"{target_dir}/**", recursive=True)
         
         def check(file_name:str):
-            print(file_name)
             if not file_name:
                 return False
             elif file_name.endswith('.log'):
