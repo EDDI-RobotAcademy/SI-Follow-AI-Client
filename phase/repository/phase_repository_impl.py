@@ -88,7 +88,7 @@ or "/ 4")
     
     def get_test_reports(self, *args, **kwargs):
         user_token, project_name = args
-        test_reports_log_path = os.path.join("si_agent", "WareHouse", user_token, project_name, "logs", "test_reports.log")
+        test_reports_log_path = os.path.join("si_agent", "WareHouse", user_token, project_name, "logs", "TestErrorSummary.log")
         
         if not os.path.exists(test_reports_log_path):
             return "operate si agent first."
