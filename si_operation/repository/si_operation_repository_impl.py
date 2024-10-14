@@ -45,3 +45,19 @@ class SIOperationRepositoryImpl(SIOperationRepository):
         with open(target_file, 'r') as f:
             content = f.read()
         return content
+        
+        def check(file_name:str):
+            if not file_name:
+                return False
+            elif file_name.endswith('.log'):
+                return False
+            elif 'configs' in file_name:
+                return False
+            elif 'logs' in file_name:
+                return False
+            elif file_name.endswith('.prompt'):
+                return False
+            return True
+                
+        return [f.split(target_dir + "/")[-1] for f in file_list if check(f.split(target_dir + "/")[-1])]
+
