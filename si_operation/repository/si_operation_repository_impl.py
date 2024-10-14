@@ -37,3 +37,11 @@ class SIOperationRepositoryImpl(SIOperationRepository):
         target_dir = f"si_agent/WareHouse/{kwargs['user_token']}/{kwargs['project_name']}"
         file_list = glob(f"{target_dir}/**", recursive=True)
         return [f.split(target_dir + "/")[-1] for f in file_list]
+    
+    def get_file_content(self, *args, **kwargs):
+        ks = ['user_token', 'project_name', 'file_name']
+        kwargs = {k:v for k, v in zip(ks, args)}
+        target_file = f"si_agent/WareHouse/{kwargs['user_token']}/{kwargs['project_name']}/{kwargs['file_name']}"
+        with open(target_file, 'r') as f:
+            content = f.read()
+        return content

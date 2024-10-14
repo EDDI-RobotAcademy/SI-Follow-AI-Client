@@ -12,6 +12,8 @@ from si_operation.service.request.si_operation_request import SIOperationRequest
 from si_operation.service.response.si_operation_response import SIOperationResponse
 from si_operation.service.request.get_file_list_request import GetFileListRequest
 from si_operation.service.response.get_file_list_response import GetFileListResponse
+from si_operation.service.request.get_file_content_request import GetFileContentRequest
+from si_operation.service.response.get_file_content_response import GetFileContentResponse
 from watchdog_operation.service.watchdog_operation_service_impl import WatchdogOperationServiceImpl
 from watchdog_operation.service.request.watchdog_service_request import WatchdogOperationRequest
 from watchdog_operation.service.response.watchdog_service_response import WatchdogOperationResponse
@@ -195,6 +197,28 @@ class UserDefinedProtocolRegister:
             UserDefinedProtocolNumber.GET_FILE_LIST,
             SIOperationService.get_file_list
         )
+        
+    @staticmethod
+    def registerGetFileContentProtocol():
+        customProtocolService = CustomProtocolServiceImpl.getInstance()
+        SIOperationService = SIOperationServiceImpl.getInstance()
+
+        requestClassMapInstance = RequestClassMap.getInstance()
+        requestClassMapInstance.addRequestClass(
+            UserDefinedProtocolNumber.GET_FILE_CONTENT,
+            GetFileContentRequest
+        )
+
+        responseClassMapInstance = ResponseClassMap.getInstance()
+        responseClassMapInstance.addResponseClass(
+            UserDefinedProtocolNumber.GET_FILE_CONTENT,
+            GetFileContentResponse
+        )
+
+        customProtocolService.registerCustomProtocol(
+            UserDefinedProtocolNumber.GET_FILE_CONTENT,
+            SIOperationService.get_file_content
+        )
 
     @staticmethod
     def registerGetGPUstatusProtocol():
@@ -270,6 +294,7 @@ class UserDefinedProtocolRegister:
         UserDefinedProtocolRegister.registerGetCurrentPhaseProtocol()
         UserDefinedProtocolRegister.registerGetBacklogsProtocol()
         UserDefinedProtocolRegister.registerGetFileListProtocol()
+        UserDefinedProtocolRegister.registerGetFileContentProtocol()
         UserDefinedProtocolRegister.registerGetGPUstatusProtocol()
         UserDefinedProtocolRegister.registerGetTestReportsProtocol()
         UserDefinedProtocolRegister.registerGetCodeReviewsProtocol()
