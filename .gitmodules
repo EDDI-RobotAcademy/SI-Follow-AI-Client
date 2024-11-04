@@ -6,3 +6,6 @@
 	path = si_agent
 	url = https://github.com/EDDI-RobotAcademy/ChatDev
 	branch = main
+[submodule "made_dev_example_for_llama"]
+	path = made_dev_example_for_llama
+	url = https://github.com/onebottlekick/made_dev_example_for_llama.git
