@@ -75,12 +75,7 @@ class LlamaAgentOperationRepositoryImpl(LlamaAgentOperationRepository):
             chain_dict = pickle.load(f)
         env = chain_dict["env"]
         file_names = env.states.codes.keys()
-        return [
-            os.path.join(
-                "project_zoo", kwargs["user_token"], kwargs["project_name"], file_name
-            )
-            for file_name in file_names
-        ]
+        return list(file_names)
 
     def get_file_content(self, *args, **kwargs):
         ks = ["user_token", "project_name", "file_name"]
@@ -92,6 +87,5 @@ class LlamaAgentOperationRepositoryImpl(LlamaAgentOperationRepository):
             chain_dict = pickle.load(f)
         env = chain_dict["env"]
         codes = env.states.codes
-        file_name = kwargs["file_name"].split(kwargs["project_name"]).strip("/")
-        content = codes[file_name]
+        content = codes[kwargs["file_name"]]
         return content

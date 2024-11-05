@@ -21,11 +21,12 @@ class LlamaPhaseRepositoryImpl(LlamaPhaseRepository):
         return cls.__instance
 
     def get_current_phase(self, *args, **kwargs):
-        user_token, project_name = args
+        ks = ["user_token", "project_name"]
+        kwargs = {k:v for k, v in zip(ks, args)}
         chain_checkpoint_path = os.path.join(
             "project_zoo",
-            user_token,
-            project_name,
+            kwargs['user_token'],
+            kwargs["project_name"],
             "chain.pkl",
         )
         with open(chain_checkpoint_path, "rb") as f:
@@ -34,11 +35,12 @@ class LlamaPhaseRepositoryImpl(LlamaPhaseRepository):
         return cur_phase
 
     def get_backlogs(self, *args, **kwargs):
-        user_token, project_name = args
+        ks = ["user_token", "project_name"]
+        kwargs = {k:v for k, v in zip(ks, args)}
         chain_checkpoint_path = os.path.join(
             "project_zoo",
-            user_token,
-            project_name,
+            kwargs["user_token"],
+            kwargs["project_name"],
             "chain.pkl",
         )
         with open(chain_checkpoint_path, "rb") as f:
@@ -50,11 +52,12 @@ class LlamaPhaseRepositoryImpl(LlamaPhaseRepository):
         return "\n".join(backlog)
 
     def get_test_reports(self, *args, **kwargs):
-        user_token, project_name = args
+        ks = ["user_token", "project_name"]
+        kwargs = {k:v for k, v in zip(ks, args)}
         chain_checkpoint_path = os.path.join(
             "project_zoo",
-            user_token,
-            project_name,
+            kwargs["user_token"],
+            kwargs["project_name"],
             "chain.pkl",
         )
         with open(chain_checkpoint_path, "rb") as f:
@@ -65,11 +68,12 @@ class LlamaPhaseRepositoryImpl(LlamaPhaseRepository):
         return test_reports
 
     def get_code_reviews(self, *args, **kwargs):
-        user_token, project_name = args
+        ks = ["user_token", "project_name"]
+        kwargs = {k:v for k, v in zip(ks, args)}
         chain_checkpoint_path = os.path.join(
             "project_zoo",
-            user_token,
-            project_name,
+            kwargs["user_token"],
+            kwargs["project_name"],
             "chain.pkl",
         )
         with open(chain_checkpoint_path, "rb") as f:
