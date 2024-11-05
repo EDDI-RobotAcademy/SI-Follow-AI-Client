@@ -8,6 +8,9 @@ from first_user_defined_function_domain.service.request.fudf_just_for_test_reque
 from first_user_defined_function_domain.service.response.fudf_just_for_test_response import (
     FudfJustForTestResponse,
 )
+from finetune.service.finetune_service_impl import FinetuneServiceImpl
+from finetune.service.request.finetune_request import FineTuneRequest
+from finetune.service.response.finetune_response import FineTuneResponse
 from gpu_management.service.gpu_management_service_impl import GPUManagementServiceImpl
 from gpu_management.service.request.gpu_management_request import GPUManagementRequest
 from gpu_management.service.response.gpu_management_response import (
@@ -106,7 +109,9 @@ from watchdog_operation.service.watchdog_operation_service_impl import (
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "template"))
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "si_agent"))
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "made_dev_example_for_llama"))
+sys.path.append(
+    os.path.join(os.path.dirname(__file__), "..", "made_dev_example_for_llama")
+)
 
 from template.custom_protocol.service.custom_protocol_service_impl import (
     CustomProtocolServiceImpl,
@@ -355,7 +360,7 @@ class UserDefinedProtocolRegister:
     #     customProtocolService.registerCustomProtocol(
     #         UserDefinedProtocolNumber.GET_FILE_CONTENT,
     #         SIOperationService.get_file_content,
-        # )
+    # )
 
     @staticmethod
     def registerLlamaGetFileContentProtocol():
@@ -478,6 +483,26 @@ class UserDefinedProtocolRegister:
         )
 
     @staticmethod
+    def registerFinetuneProtocol():
+        customProtocolService = CustomProtocolServiceImpl.getInstance()
+        finetune_service = FinetuneServiceImpl.getInstance()
+
+        requestClassMapInstance = RequestClassMap.getInstance()
+        requestClassMapInstance.addRequestClass(
+            UserDefinedProtocolNumber.FINETUNE, FineTuneRequest
+        )
+
+        responseClassMapInstance = ResponseClassMap.getInstance()
+        responseClassMapInstance.addResponseClass(
+            UserDefinedProtocolNumber.FINETUNE, FineTuneResponse
+        )
+
+        customProtocolService.registerCustomProtocol(
+            UserDefinedProtocolNumber.FINETUNE,
+            finetune_service.sft,
+        )
+
+    @staticmethod
     def registerUserDefinedProtocol():
         UserDefinedProtocolRegister.registerFirstUserDefinedProtocol()
         # UserDefinedProtocolRegister.registerSIAgentOperationProtocol()
@@ -497,3 +522,4 @@ class UserDefinedProtocolRegister:
         # UserDefinedProtocolRegister.registerGetCodeReviewsProtocol()
         UserDefinedProtocolRegister.registerLlamaGetCodeReviewsProtocol()
         UserDefinedProtocolRegister.registerUserTestPointProtocol()
+        UserDefinedProtocolRegister.registerFinetuneProtocol()
