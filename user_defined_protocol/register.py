@@ -499,7 +499,7 @@ class UserDefinedProtocolRegister:
 
         customProtocolService.registerCustomProtocol(
             UserDefinedProtocolNumber.FINETUNE,
-            finetune_service.sft,
+            finetune_service.supervised_finetuning,
         )
 
     @staticmethod

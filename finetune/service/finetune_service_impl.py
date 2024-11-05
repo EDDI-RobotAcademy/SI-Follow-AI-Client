@@ -1,4 +1,6 @@
 import os
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'custom_model'))
 
 from finetune.service.finetune_service import FinetuneService
 from custom_model.train.service.train_service_impl import TrainServiceImpl
@@ -26,7 +28,7 @@ class FinetuneServiceImpl(FinetuneService):
     def supervised_finetuning(self, *args, **kwargs):
         user_token, model_name, model_id, dataset_id = args[:4]
         save_path = os.path.join("model_zoo", user_token, model_name)
-        self.__train_service.sft(save_path, model_id=model_id, dataset_id=dataset_id)
+        self.__train_service.sft(save_path=save_path, model_id=model_id, dataset_id=dataset_id)
         model_id = model_id if model_id else self.__train_service.MODEL_ID
         self.__to_ollama_service.to_ollama(model_id, save_path)
         return {
