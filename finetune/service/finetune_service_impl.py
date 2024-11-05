@@ -30,7 +30,7 @@ class FinetuneServiceImpl(FinetuneService):
         save_path = os.path.join("model_zoo", user_token, model_name)
         self.__train_service.sft(save_path=save_path, model_id=model_id, dataset_id=dataset_id)
         model_id = model_id if model_id else self.__train_service.MODEL_ID
-        self.__to_ollama_service.to_ollama(model_id, save_path)
+        self.__to_ollama_service.to_ollama(model_id, save_path, save_path)
         return {
             "finetune": "started"
         }
