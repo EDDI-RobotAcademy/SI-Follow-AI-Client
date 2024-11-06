@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
 
-class SIOperationService(ABC):
+class LlamaAgentOperationRepository(ABC):
     @abstractmethod
-    def operateSIAgent(self, *args, **kwargs):
+    def operate(self, *args, **kwargs):
         pass
     
     @abstractmethod

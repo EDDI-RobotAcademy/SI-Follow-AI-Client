@@ -36,9 +36,7 @@ class SIOperationRepositoryImpl(SIOperationRepository):
         kwargs = {k:v for k, v in zip(ks, args)}
         target_dir = f"si_agent/WareHouse/{kwargs['user_token']}/{kwargs['project_name']}"
         file_list = glob(f"{target_dir}/**", recursive=True)
-        
         def check(file_name:str):
-            print(file_name)
             if not file_name:
                 return False
             elif file_name.endswith('.log'):
@@ -52,3 +50,11 @@ class SIOperationRepositoryImpl(SIOperationRepository):
             return True
                 
         return [f.split(target_dir + "/")[-1] for f in file_list if check(f.split(target_dir + "/")[-1])]
+    
+    def get_file_content(self, *args, **kwargs):
+        ks = ['user_token', 'project_name', 'file_name']
+        kwargs = {k:v for k, v in zip(ks, args)}
+        target_file = f"si_agent/WareHouse/{kwargs['user_token']}/{kwargs['project_name']}/{kwargs['file_name']}"
+        with open(target_file, 'r') as f:
+            content = f.read()
+        return content

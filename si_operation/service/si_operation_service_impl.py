@@ -34,3 +34,15 @@ class SIOperationServiceImpl(SIOperationService):
             "project_name": project_name,
             "file_list": created_files
         }
+        
+    def get_file_content(self, *args, **kwargs):
+        user_token = args[0]
+        project_name = args[1]
+        file_name = args[2]
+        file_content = self.__siOperationRepository.get_file_content(*args, **kwargs)
+        return {
+            "user_token": user_token,
+            "project_name": project_name,
+            "file_name": file_name,
+            "file_content": file_content
+        }

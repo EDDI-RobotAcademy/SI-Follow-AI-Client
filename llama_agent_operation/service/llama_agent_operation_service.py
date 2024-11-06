@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class SIOperationService(ABC):
+class LlamaAgentOperationService(ABC):
     @abstractmethod
     def operateSIAgent(self, *args, **kwargs):
         pass
