@@ -21,6 +21,8 @@ class UserDefinedProtocolNumber(Enum):
     LLaMA_GET_FILE_CONTENT = 7774
     LLaMA_GET_TEST_REPORTS = 3734
     LLaMA_GET_CODE_REVIEW = 7378
+    
+    FINETUNE = 8262
 
     USER_TEST_POINT = 12345
 
