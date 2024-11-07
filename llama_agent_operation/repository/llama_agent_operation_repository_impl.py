@@ -42,6 +42,7 @@ class LlamaAgentOperationRepositoryImpl(LlamaAgentOperationRepository):
                 "project_zoo", kwargs["user_token"], kwargs["project"]
             ),
             base_url=f"{kwargs['base_url']}/v1/",
+            max_tokens=16000,
             model=kwargs["model_name"],
             phases=[
                 "DemandAnalysis",
