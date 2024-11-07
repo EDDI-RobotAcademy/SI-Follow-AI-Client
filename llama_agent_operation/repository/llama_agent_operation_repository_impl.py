@@ -34,7 +34,7 @@ class LlamaAgentOperationRepositoryImpl(LlamaAgentOperationRepository):
         return cls.__instance
 
     def operate(self, *args, **kwargs):
-        ks = ["config", "model_name", "user_token", "task", "project", "base_url"]
+        ks = ["config", "model_name", "user_token", "task", "project", "base_url", "api_token"]
         kwargs = {k: v for k, v in zip(ks, args)}
         chain = ChatChainServiceImpl(
             task_prompt=kwargs["task"],
@@ -44,6 +44,7 @@ class LlamaAgentOperationRepositoryImpl(LlamaAgentOperationRepository):
             base_url=f"{kwargs['base_url']}/v1/",
             max_tokens=16000,
             model=kwargs["model_name"],
+            api_key=kwargs["api_token"],
             phases=[
                 "DemandAnalysis",
                 "ProductBacklogUpdate",
