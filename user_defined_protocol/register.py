@@ -485,7 +485,7 @@ class UserDefinedProtocolRegister:
     @staticmethod
     def registerFinetuneProtocol():
         customProtocolService = CustomProtocolServiceImpl.getInstance()
-        finetune_service = FinetuneServiceImpl.getInstance()
+        finetune_service = FinetuneServiceImpl.get_instance()
 
         requestClassMapInstance = RequestClassMap.getInstance()
         requestClassMapInstance.addRequestClass(
